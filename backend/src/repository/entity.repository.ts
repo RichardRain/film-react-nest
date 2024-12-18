@@ -27,7 +27,7 @@ export abstract class EntityRepository<T extends Document> {
   }
 
   async findOneAndUpdate(entityFilterQuery: FilterQuery<T>, updateEntityData: UpdateQuery<unknown>): Promise<T | null> {
-    return this.entityModel.findByIdAndUpdate(
+    return this.entityModel.findOneAndUpdate(
       entityFilterQuery, updateEntityData, {
         new: true,
       }
