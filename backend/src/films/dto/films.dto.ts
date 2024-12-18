@@ -1,4 +1,10 @@
-import { IsString, IsNumber, IsFQDN, IsNotEmpty, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsFQDN,
+  IsNotEmpty,
+  IsArray,
+} from 'class-validator';
 
 export class GetScheduleDTO {
   @IsString()
@@ -51,7 +57,7 @@ export class CreateFilmDto {
   image: string;
   @IsFQDN()
   cover: string;
-  @IsString()  
+  @IsString()
   title: string;
   @IsString()
   about: string;
@@ -60,4 +66,4 @@ export class CreateFilmDto {
   @IsNotEmpty()
   @IsArray()
   schedule: GetScheduleDTO[];
-} 
+}

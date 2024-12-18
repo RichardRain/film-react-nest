@@ -1,24 +1,28 @@
-import { Document, FilterQuery, Model, UpdateQuery } from "mongoose";
+import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
 
 export abstract class EntityRepository<T extends Document> {
   constructor(protected readonly entityModel: Model<T>) {}
 
   async findOne(
     entityFilterQuery: FilterQuery<T>,
-    projection?: Record<string, unknown>
+    projection?: Record<string, unknown>,
   ): Promise<T | null> {
-    return this.entityModel.findOne(entityFilterQuery, {
-      ...projection
-    }).exec();
+    return this.entityModel
+      .findOne(entityFilterQuery, {
+        ...projection,
+      })
+      .exec();
   }
 
   async find(
     entityFilterQuery?: FilterQuery<T>,
-    projection?: Record<string, unknown>
+    projection?: Record<string, unknown>,
   ): Promise<T[] | null> {
-    return this.entityModel.find(entityFilterQuery, {
-      ...projection
-    }).exec();
+    return this.entityModel
+      .find(entityFilterQuery, {
+        ...projection,
+      })
+      .exec();
   }
 
   async create(createEntityData: unknown): Promise<T> {
@@ -26,12 +30,17 @@ export abstract class EntityRepository<T extends Document> {
     return entity.save();
   }
 
-  async findOneAndUpdate(entityFilterQuery: FilterQuery<T>, updateEntityData: UpdateQuery<unknown>): Promise<T | null> {
+  async findOneAndUpdate(
+    entityFilterQuery: FilterQuery<T>,
+    updateEntityData: UpdateQuery<unknown>,
+  ): Promise<T | null> {
     return this.entityModel.findOneAndUpdate(
-      entityFilterQuery, updateEntityData, {
+      entityFilterQuery,
+      updateEntityData,
+      {
         new: true,
-      }
-    )
+      },
+    );
   }
 
   async deleteMany(entityFilterQuery: FilterQuery<T>): Promise<boolean> {
