@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { GetOrderDTO } from './dto/order.dto';
 import { FilmsRepository } from 'src/repository/films.repository';
 import { convertToDTO } from 'src/utils/dtoConverter';
-import { GetFilmDTO } from 'src/films/dto/films.dto';
+import { GetFullFilmDTO } from 'src/films/dto/films.dto';
 import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class OrderService {
     for (const ticket of orderDto.tickets) {
       try {
         const film = await this.filmsRepository.findOne({ id: ticket.film });
-        const filmDto = convertToDTO<GetFilmDTO>(film);
+        const filmDto = convertToDTO<GetFullFilmDTO>(film, GetFullFilmDTO);
         const filmSession = filmDto.schedule.find(
           (session) => session.id === ticket.session,
         );

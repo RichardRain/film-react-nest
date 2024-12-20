@@ -15,7 +15,7 @@ export class FilmsService {
       const data = await this.filmsRepository.find();
       return {
         total: data.length,
-        items: data.map((film) => convertToDTO<GetFilmDTO>(film)),
+        items: data.map((film) => convertToDTO<GetFilmDTO>(film, GetFilmDTO)),
       };
     } catch (error) {
       throw new InternalServerErrorException(
@@ -34,7 +34,7 @@ export class FilmsService {
       return {
         total: film.schedule.length,
         items: film.schedule.map((schedule) =>
-          convertToDTO<GetScheduleDTO>(schedule),
+          convertToDTO<GetScheduleDTO>(schedule, GetScheduleDTO),
         ),
       };
     } catch (error) {

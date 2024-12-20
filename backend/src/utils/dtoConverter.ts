@@ -1,5 +1,8 @@
-export function convertToDTO<T>(dbObject: any): T {
-  const { ...filteredObject } = dbObject['_doc'];
-  delete filteredObject['_id'];
-  return filteredObject as T;
+import { plainToInstance } from 'class-transformer';
+
+export function convertToDTO<T>(dbObject: any, dtoClass: new () => T): T {
+  const plainObject = dbObject['_doc'] || dbObject;
+  return plainToInstance(dtoClass, plainObject, {
+    excludeExtraneousValues: true,
+  });
 }

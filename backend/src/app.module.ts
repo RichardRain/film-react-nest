@@ -19,7 +19,7 @@ import { Film, FilmSchema } from './films/schemas/films.schema';
       cache: true,
     }),
     ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, '..', 'public'),
+      rootPath: path.resolve(process.cwd(), 'public'),
       renderPath: '/content/afisha',
     }),
     MongooseModule.forRoot(configProvider.useValue.database.url),
