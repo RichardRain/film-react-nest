@@ -1,18 +1,31 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { GetOrderDTO } from './dto/order.dto';
-import { FilmsRepository } from 'src/repository/films.repository';
-import { convertToDTO } from 'src/utils/dtoConverter';
-import { GetFullFilmDTO } from 'src/films/dto/films.dto';
+import { convertToDTO } from '../utils/dtoConverter';
+import { GetFullFilmDTO } from '../films/dto/films.dto';
 import { BadRequestException } from '@nestjs/common';
+import { MongoFilmsRepository } from '../repository/MongoDB/films.repository';
+import { PostgresFilmsRepository } from '../repository/PostgreSQL/films.repository';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly filmsRepository: FilmsRepository) {}
+  constructor(
+    @Inject('FILMS_REPOSITORY')
+    private readonly filmsRepository:
+      | MongoFilmsRepository
+      | PostgresFilmsRepository,
+  ) {}
 
   async createOrder(orderDto: GetOrderDTO) {
     try {
       const filmIds = orderDto.tickets.map((ticket) => ticket.film);
-      const films = await this.filmsRepository.find({ id: { $in: filmIds } });
+      const films = await Promise.all(
+        filmIds.map((filmId) => this.filmsRepository.findOne({ id: filmId })),
+      );
+
       const filmsDtos = films.map((film) =>
         convertToDTO<GetFullFilmDTO>(film, GetFullFilmDTO),
       );
@@ -52,10 +65,21 @@ export class OrderService {
           (session) => session.id === ticket.session,
         );
 
-        await this.filmsRepository.findOneAndUpdate(
-          { id: filmDto.id },
-          { $set: { [`schedule.${sessionIndex}.taken`]: filmSession.taken } },
-        );
+        if (this.filmsRepository instanceof MongoFilmsRepository) {
+          await this.filmsRepository.findOneAndUpdate(
+            { id: filmDto.id },
+            { $set: { [`schedule.${sessionIndex}.taken`]: filmSession.taken } },
+          );
+        } else {
+          const filmToUpdtae = await this.filmsRepository.findOne({
+            id: filmDto.id,
+          });
+          filmToUpdtae.schedule[sessionIndex].taken = filmSession.taken;
+          await this.filmsRepository.findOneAndUpdate(
+            { id: filmDto.id },
+            { set: { schedule: filmToUpdtae.schedule } },
+          );
+        }
 
         return {
           total: orderDto.tickets.length,
