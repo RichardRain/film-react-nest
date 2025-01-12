@@ -1,15 +1,22 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { GetFilmDTO, GetScheduleDTO } from './dto/films.dto';
-import { FilmsRepository } from '../repository/films.repository';
 import { convertToDTO } from '../utils/dtoConverter';
+import { MongoFilmsRepository } from '../repository/MongoDB/films.repository';
+import { PostgresFilmsRepository } from '../repository/PostgreSQL/films.repository';
 
 @Injectable()
 export class FilmsService {
-  constructor(private readonly filmsRepository: FilmsRepository) {}
+  constructor(
+    @Inject('FILMS_REPOSITORY')
+    private readonly filmsRepository:
+      | MongoFilmsRepository
+      | PostgresFilmsRepository,
+  ) {}
   async getAllFilms() {
     try {
       const data = await this.filmsRepository.find();

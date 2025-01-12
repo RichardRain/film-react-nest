@@ -7,6 +7,10 @@ export const configProvider = {
     database: {
       driver: process.env.DATABASE_DRIVER,
       url: process.env.DATABASE_URL,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      port: Number(process.env.DATABASE_PORT),
+      database: process.env.DATABASE_NAME,
     },
   },
 };
@@ -18,4 +22,8 @@ export interface AppConfig {
 export interface AppConfigDatabase {
   driver: string;
   url: string;
+  username: string;
+  password: string;
+  port: number;
+  database: string;
 }
