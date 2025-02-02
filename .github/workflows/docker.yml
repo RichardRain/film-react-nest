@@ -1,6 +1,6 @@
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  REPO: richardrain/film-react-nest
 
 name: publish
 on: [push]
@@ -31,7 +31,7 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}-backend:latest
+            ${{ env.REGISTRY }}/${{ env.REPO }}-nest-backend:latest
 
       - name: Build and push Frontend
         uses: docker/build-push-action@v6.13.0
@@ -40,7 +40,7 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}-frontend:latest
+            ${{ env.REGISTRY }}${{ env.REPO }}-frontend:latest
 
       - name: Build and push Nginx
         uses: docker/build-push-action@v6.13.0
@@ -49,4 +49,4 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}-nginx:latest
+            ${{ env.REGISTRY }}/${{ env.REPO }}-nginx:latest
