@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/richardrain/film-react-nest/backend:latest
+    image: ghcr.io/richardrain/backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: ghcr.io/richardrain/film-react-nest/frontend:latest
+    image: ghcr.io/richardrain/frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -29,7 +29,7 @@ services:
       - internet
 
   nginx:
-    image: ghcr.io/richardrain/film-react-nest/nginx:latest
+    image: ghcr.io/richardrain/nginx:latest
     build:
       context: ./nginx
       dockerfile: Dockerfile

@@ -28,7 +28,7 @@ jobs:
             context: ./backend
             file: ./backend/Dockerfile
             push: true
-            tags: ${{ env.REGISTRY }}/RichardRain/film-react-nest/backend:latest
+            tags: ${{ env.REGISTRY }}/richardrain/backend:latest
             
         - name: Build and push Frontend Docker image
           uses: docker/build-push-action@v6.13.0
@@ -36,7 +36,7 @@ jobs:
             context: ./frontend
             file: ./frontend/Dockerfile
             push: true
-            tags: ${{ env.REGISTRY }}/RichardRain/film-react-nest/frontend:latest
+            tags: ${{ env.REGISTRY }}/richardrain/frontend:latest
 
         - name: Build and push Nginx Docker image
           uses: docker/build-push-action@v6.13.0
@@ -44,4 +44,4 @@ jobs:
             context: ./nginx
             file: ./nginx/Dockerfile
             push: true
-            tags: ${{ env.REGISTRY }}/RichardRain/film-react-nest/nginx:latest
+            tags: ${{ env.REGISTRY }}/richardrain/nginx:latest
