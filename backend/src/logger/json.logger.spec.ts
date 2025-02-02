@@ -1,10 +1,10 @@
-import { JsonLogger } from "./json.logger";
+import { JsonLogger } from './json.logger';
 
 describe('JsonLogger tests', () => {
   let jsonLogger: JsonLogger;
   const testText = 'test text';
 
-  beforeEach(() => jsonLogger = new JsonLogger());
+  beforeEach(() => (jsonLogger = new JsonLogger()));
   afterEach(() => jest.restoreAllMocks());
 
   it('log level should be in json format', () => {

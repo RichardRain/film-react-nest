@@ -1,10 +1,10 @@
-import { TskvLogger } from "./tskv.logger";
+import { TskvLogger } from './tskv.logger';
 
 describe('TskvLogger tests', () => {
   let tskvLogger: TskvLogger;
   const testText = 'test text';
 
-  beforeEach(() => tskvLogger = new TskvLogger());
+  beforeEach(() => (tskvLogger = new TskvLogger()));
   afterEach(() => jest.restoreAllMocks());
 
   it('log level should be in tskv format', () => {
