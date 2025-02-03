@@ -13,12 +13,20 @@ export const configProvider = {
       database: process.env.DATABASE_NAME,
     },
     logger: process.env.LOGGER_MODE,
+    backend: {
+      port: Number(process.env.PORT),
+    }
   },
 };
 
 export interface AppConfig {
   database: AppConfigDatabase;
   logger: LoggerMode;
+  backend: BackendConfig;
+}
+
+interface BackendConfig {
+  port: number;
 }
 
 export interface AppConfigDatabase {

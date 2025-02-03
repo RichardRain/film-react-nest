@@ -11,6 +11,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api/afisha');
   app.enableCors();
   app.useLogger(setLogger(configProvider.useValue.logger));
-  await app.listen(3000);
+  await app.listen(configProvider.useValue.backend.port || 3000, '0.0.0.0');
 }
 bootstrap();
