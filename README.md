@@ -1,5 +1,9 @@
 # FILM!
 
+## Демо
+
+Ссылка на демо проекта: http://richardrain.nomorepartiesco.ru/
+
 ## Установка
 
 ### MongoDB
